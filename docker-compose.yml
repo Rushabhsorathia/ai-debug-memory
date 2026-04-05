@@ -1,0 +1,46 @@
+services:
+  app:
+    build: .
+    container_name: ai-debug-memory
+    restart: unless-stopped
+    ports:
+      - "3457:3457"
+    env_file:
+      - .env
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - debug-memory
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3457/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  mongo:
+    image: mongo:7
+    container_name: debug-memory-mongo
+    restart: unless-stopped
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: ai_debug_memory
+    networks:
+      - debug-memory
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  mongo_data:
+
+networks:
+  debug-memory:
+    driver: bridge

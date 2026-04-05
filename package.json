@@ -1,0 +1,30 @@
+{
+  "name": "ai-debug-memory",
+  "version": "1.0.0",
+  "description": "Personal bug fix database with MCP support - never debug the same bug twice",
+  "main": "src/server.js",
+  "bin": {
+    "dm": "./cli/debug-memory.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "commander": "^12.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^7.2.0",
+    "mongoose": "^8.12.0",
+    "winston": "^3.17.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0"
+  }
+}
